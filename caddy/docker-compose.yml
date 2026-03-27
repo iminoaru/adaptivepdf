@@ -11,6 +11,9 @@ services:
       - caddy_data:/data
     networks:
       - caddy-net
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
 volumes:
   caddy_data:
