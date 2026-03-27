@@ -1,0 +1,22 @@
+[project]
+name = "pdx"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "iminoaru", email = "sarthakgaud04@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.135.1",
+    "pymupdf>=1.27.2",
+    "python-multipart>=0.0.22",
+    "uvicorn>=0.42.0",
+]
+
+[project.scripts]
+off = "pdx:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

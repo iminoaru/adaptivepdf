@@ -1,0 +1,13 @@
+services:
+  pdx-api:
+    build: .
+    container_name: pdx-api
+    restart: unless-stopped
+    expose:
+      - "8000"
+    networks:
+      - caddy-net
+
+networks:
+  caddy-net:
+    external: true

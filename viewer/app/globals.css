@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #fafaf9;
+  --surface: #ffffff;
+  --border: #e5e4e0;
+  --border-strong: #cccac4;
+  --text-primary: #1a1916;
+  --text-secondary: #6b6860;
+  --text-muted: #a09e99;
+  --accent: #1a1916;
+  --accent-light: #f0eeea;
+  --pdf-badge: #e8e0ff;
+  --pdf-badge-text: #4a3b8c;
+  --md-badge: #d4f0d4;
+  --md-badge-text: #1f6b1f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-ibm-plex-sans), sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Markdown prose styles */
+.md-prose h1 { font-size: 1.5rem; font-weight: 600; margin: 0 0 0.75rem; line-height: 1.25; }
+.md-prose h2 { font-size: 1.15rem; font-weight: 600; margin: 1.5rem 0 0.5rem; }
+.md-prose h3 { font-size: 1rem; font-weight: 600; margin: 1.25rem 0 0.4rem; }
+.md-prose h4 { font-size: 0.9rem; font-weight: 600; margin: 1rem 0 0.35rem; color: var(--text-secondary); }
+.md-prose p { margin: 0 0 0.75rem; color: var(--text-primary); }
+.md-prose ul { margin: 0 0 0.75rem; padding-left: 1.25rem; }
+.md-prose ol { margin: 0 0 0.75rem; padding-left: 1.25rem; }
+.md-prose li { margin-bottom: 0.25rem; }
+.md-prose hr { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
+.md-prose code { font-family: "IBM Plex Mono", monospace; font-size: 0.82rem; background: var(--accent-light); padding: 0.1em 0.35em; border-radius: 3px; }
+.md-prose pre { background: var(--accent-light); padding: 1rem; border-radius: 6px; overflow-x: auto; margin: 0 0 1rem; }
+.md-prose pre code { background: none; padding: 0; }
+.md-prose strong { font-weight: 600; }
+.md-prose em { font-style: italic; color: var(--text-secondary); }
+.md-prose a { color: var(--text-primary); text-decoration: underline; text-underline-offset: 2px; }
+.md-prose table { border-collapse: collapse; width: 100%; margin: 0 0 1rem; font-size: 0.88rem; }
+.md-prose th { font-weight: 600; text-align: left; padding: 6px 12px; border-bottom: 2px solid var(--border-strong); }
+.md-prose td { padding: 5px 12px; border-bottom: 1px solid var(--border); }
+.md-prose tr:last-child td { border-bottom: none; }
+.md-prose img { max-width: 100%; height: auto; margin: 0.5rem 0; }

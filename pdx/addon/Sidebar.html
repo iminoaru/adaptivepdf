@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Google Sans', Arial, sans-serif;
+      padding: 16px;
+      color: #1a1a1a;
+      background: #fff;
+    }
+
+    h2 {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-primary {
+      background: #1a73e8;
+      color: white;
+      margin-bottom: 8px;
+    }
+    .btn-primary:hover { background: #1557b0; }
+    .btn-primary:disabled {
+      background: #a8c7fa;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: #f1f3f4;
+      color: #1a1a1a;
+    }
+    .btn-secondary:hover { background: #e2e5e8; }
+
+    #status {
+      margin-top: 16px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    #status.error { color: #d93025; }
+
+    .preview {
+      margin-top: 12px;
+      padding: 10px;
+      background: #f8f9fa;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 11px;
+      line-height: 1.5;
+      max-height: 300px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      display: none;
+    }
+
+    .link {
+      display: inline-block;
+      margin-top: 8px;
+      color: #1a73e8;
+      text-decoration: none;
+      font-size: 12px;
+    }
+    .link:hover { text-decoration: underline; }
+
+    .spinner {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 2px solid #a8c7fa;
+      border-top-color: #1a73e8;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <h2>Adaptive PDF</h2>
+  <p class="subtitle">
+    Export this doc as a Smart PDF. Humans see the formatted PDF.
+    Machines extract clean markdown.
+  </p>
+
+  <button class="btn-primary" id="exportBtn" onclick="doExport()">
+    Export as Smart PDF
+  </button>
+  <button class="btn-secondary" onclick="doPreview()">
+    Preview Markdown
+  </button>
+
+  <div id="status"></div>
+  <pre id="preview" class="preview"></pre>
+
+  <script>
+    function doExport() {
+      const btn = document.getElementById("exportBtn");
+      const status = document.getElementById("status");
+
+      btn.disabled = true;
+      btn.textContent = "Exporting...";
+      status.className = "";
+      status.innerHTML = '<span class="spinner"></span> Converting document structure to markdown...';
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          btn.disabled = false;
+          btn.textContent = "Export as Smart PDF";
+          status.className = "";
+          status.innerHTML =
+            'Saved to Google Drive.<br>' +
+            '<a class="link" href="' + result.downloadUrl + '" target="_blank">Download ' + result.name + '</a>' +
+            ' &middot; ' +
+            '<a class="link" href="' + result.url + '" target="_blank">Open in Drive</a>';
+        })
+        .withFailureHandler(function(err) {
+          btn.disabled = false;
+          btn.textContent = "Export as Smart PDF";
+          status.className = "error";
+          status.textContent = "Error: " + err.message;
+        })
+        .exportSmartPdf();
+    }
+
+    function doPreview() {
+      const preview = document.getElementById("preview");
+      const status = document.getElementById("status");
+
+      status.className = "";
+      status.innerHTML = '<span class="spinner"></span> Generating preview...';
+      preview.style.display = "none";
+
+      google.script.run
+        .withSuccessHandler(function(md) {
+          status.textContent = "";
+          preview.textContent = md;
+          preview.style.display = "block";
+        })
+        .withFailureHandler(function(err) {
+          status.className = "error";
+          status.textContent = "Error: " + err.message;
+        })
+        .previewMarkdown();
+    }
+  </script>
+</body>
+</html>
