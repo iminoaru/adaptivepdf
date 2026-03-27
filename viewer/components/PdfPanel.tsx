@@ -52,7 +52,7 @@ export function PdfPanel({ pdfBytes }: Props) {
           container.appendChild(wrapper);
 
           const ctx = canvas.getContext("2d")!;
-          await page.render({ canvasContext: ctx, viewport }).promise;
+          await page.render({ canvasContext: ctx, viewport, canvas }).promise;
         }
       } catch (e) {
         if (!cancelled) setError("Could not render PDF.");

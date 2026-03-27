@@ -35,7 +35,7 @@ export function PdxViewer() {
     // Clear the query param so refresh doesn't reload
     window.history.replaceState({}, "", window.location.pathname);
     setStatus("loading");
-    fetch(`http://localhost:8000/staged/${sid}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000"}/staged/${sid}`)
       .then((r) => r.json())
       .then((data) => {
         if (data.error) throw new Error(data.error);
