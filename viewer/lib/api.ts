@@ -43,7 +43,8 @@ export async function convertPdf(
   // 5 min timeout for large PDFs
   const timer = setTimeout(() => controller.abort(), 5 * 60 * 1000);
 
-  const res = await fetch("http://localhost:8000/convert", {
+  const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+  const res = await fetch(`${API}/convert`, {
     method: "POST",
     body: form,
     signal: controller.signal,
@@ -62,7 +63,8 @@ export async function downloadOff(file: File, markdown: string): Promise<void> {
   form.append("file", file);
   form.append("markdown", markdown);
 
-  const res = await fetch("http://localhost:8000/package", {
+  const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+  const res = await fetch(`${API}/package`, {
     method: "POST",
     body: form,
   });
