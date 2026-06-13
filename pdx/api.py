@@ -16,6 +16,7 @@ from pdx.converter.merger import merge_paragraph_lines, split_tabular_lines, det
 from pdx.converter.extractor import Block, ImageBlock
 from pdx.format.writer import build_off_bytes
 from pdx.format.reader import read_markdown_from_bytes
+from pdx.http_headers import attachment_content_disposition
 import tempfile, pathlib, uuid, time
 
 app = FastAPI(title="adaptive-pdf-api")
@@ -25,9 +26,10 @@ _staged: dict[str, dict] = {}
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=["https://adaptivepdf.vercel.app"],
+    allow_methods=["GET", "POST"],
+    allow_headers=["Content-Type"],
+    expose_headers=["Content-Disposition"],
 )
 
 
@@ -113,7 +115,11 @@ async def build_smart_pdf(
     return Response(
         content=smart_bytes,
         media_type="application/pdf",
-        headers={"Content-Disposition": f'attachment; filename="{filename} (Smart).pdf"'},
+        headers={
+            "Content-Disposition": attachment_content_disposition(
+                f"{filename} (Smart).pdf"
+            )
+        },
     )
 
 
@@ -186,5 +192,7 @@ async def package(
     return Response(
         content=off_bytes,
         media_type="application/pdf",
-        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+        headers={
+            "Content-Disposition": attachment_content_disposition(filename)
+        },
     )
