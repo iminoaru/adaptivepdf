@@ -26,9 +26,9 @@ _staged: dict[str, dict] = {}
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=["https://adaptivepdf.vercel.app"],
+    allow_methods=["GET", "POST"],
+    allow_headers=["Content-Type"],
     expose_headers=["Content-Disposition"],
 )
 
