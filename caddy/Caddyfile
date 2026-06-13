@@ -1,7 +1,0 @@
-pdx.saffron.ink {
-    reverse_proxy pdx-api:8000
-}
-
-trace.saffron.ink {
-    reverse_proxy trace-api:8000
-}
