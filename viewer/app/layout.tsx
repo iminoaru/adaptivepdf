@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next"
 
 const ibmPlexSans = IBM_Plex_Sans({
   subsets: ["latin"],
@@ -24,6 +25,7 @@ export default function RootLayout({
     <html lang="en" className={ibmPlexSans.variable} style={{ height: "100%" }}>
       <body style={{ height: "100%", display: "flex", flexDirection: "column" }}>
         {children}
+        <Analytics />
       </body>
     </html>
   );
