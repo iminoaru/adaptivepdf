@@ -76,8 +76,11 @@ export async function downloadOff(file: File, markdown: string): Promise<void> {
 
   const blob = await res.blob();
   const disposition = res.headers.get("Content-Disposition") ?? "";
-  const match = disposition.match(/filename="([^"]+)"/);
-  const filename = match?.[1] ?? file.name;
+  const encodedMatch = disposition.match(/filename\*=UTF-8''([^;]+)/i);
+  const fallbackMatch = disposition.match(/filename="((?:\\.|[^"])*)"/i);
+  const filename = encodedMatch
+    ? decodeURIComponent(encodedMatch[1])
+    : fallbackMatch?.[1].replace(/\\(["\\])/g, "$1") ?? file.name;
 
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
